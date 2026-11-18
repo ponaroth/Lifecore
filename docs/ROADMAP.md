@@ -10,7 +10,7 @@ judgment, not a feature-complete product. Each phase ends in a working demo and 
 - Annuity calculations are a simplified demonstration, not production actuarial logic.
 - Every schema change is a Flyway migration. Every state change writes an audit event.
 - Each phase ships with tests: unit (JUnit, Mockito) and integration (Testcontainers on PostgreSQL).
-- From Phase 1 on, every merge to `main` deploys to the live site.
+- From Phase 1 on, the live site always runs the latest `main` while it is up.
 
 **Running as a public demo:** sign-in uses seeded demo accounts (one agent, one reviewer), demo data
 resets nightly, uploads are size-limited, and the API is rate-limited.
@@ -23,12 +23,17 @@ resets nightly, uploads are size-limited, and the API is rate-limited.
 - GitHub Actions CI building and testing both apps.
 
 ## Phase 1 — Live on AWS
-Get the skeleton online early, so every later feature ships straight to a public URL.
+Get the skeleton online early. The environment runs **on demand**: brought up before an interview
+or demo and torn down afterwards, so it costs a few dollars per demo day instead of a monthly bill.
 - Terraform: VPC, ALB with HTTPS, ECS Fargate service, RDS PostgreSQL, private S3 bucket, ECR,
-  CloudWatch logs and alarms, Secrets Manager for credentials. Sized small to keep the monthly bill low.
+  CloudWatch logs and alarms, Secrets Manager for credentials. Sized small to keep costs low.
+- Split state: a tiny always-kept layer (Terraform state bucket, ECR, GitHub OIDC role, budget alert)
+  and a disposable app layer (network, ALB, ECS, RDS, CloudFront).
+- `Environment up` / `Environment down` GitHub Actions workflows (manual buttons) that apply or
+  destroy the app layer, re-seed demo data on the way up, and print the live URL.
 - Frontend served from S3 + CloudFront.
-- GitHub Actions CD: on every merge to `main`, build the image, push to ECR and deploy to ECS,
-  authenticating to AWS with GitHub OIDC (no long-lived keys).
+- GitHub Actions CD: on every merge to `main`, build and push the image to ECR, and deploy it to ECS
+  whenever the environment is up. AWS access uses GitHub OIDC (no long-lived keys).
 - AWS Budgets alert so costs never surprise.
 
 ## Phase 2 — Policies, customers and sign-in

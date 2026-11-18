@@ -50,7 +50,7 @@ cd frontend && npm test       # Vitest
 See [docs/ROADMAP.md](docs/ROADMAP.md). In short:
 
 0. **Foundation** — project skeleton, CI ✅
-1. **Live on AWS** — Terraform, ECS Fargate, RDS, S3, auto-deploy on merge
+1. **Live on AWS** — Terraform, ECS Fargate, RDS, S3; brought up on demand for demos
 2. **Policies, customers and sign-in** — roles, optimistic locking, audit
 3. **Documents and beneficiary change workflow** — the end-to-end demo path
 4. **Annuities** — BigDecimal ledger, interest, withdrawals (simplified)
