@@ -21,8 +21,8 @@ the stack used in modern insurance platforms: **Java 21, Spring Boot, PostgreSQL
 | Database | PostgreSQL 16, Flyway migrations |
 | Documents | Private S3 with short-lived presigned URLs (LocalStack locally) |
 | Frontend | React, TypeScript, Vite |
-| Security | Spring Security, OAuth2/OIDC, role-based access (Phase 1) |
-| Deployment | Docker, AWS ECS Fargate, RDS, Terraform (Phase 3) |
+| Security | Spring Security, OAuth2/OIDC, role-based access (Phase 2) |
+| Deployment | Docker, AWS ECS Fargate, RDS, Terraform (Phase 1) |
 | CI/CD | GitHub Actions |
 | Testing | JUnit 5, Mockito, Testcontainers, Spring Modulith, Vitest |
 
@@ -50,8 +50,8 @@ cd frontend && npm test       # Vitest
 See [docs/ROADMAP.md](docs/ROADMAP.md). In short:
 
 0. **Foundation** — project skeleton, CI ✅
-1. **Policies, customers and sign-in** — roles, optimistic locking, audit
-2. **Documents and beneficiary change workflow** — the end-to-end demo path
-3. **Deploy to AWS** — Terraform, ECS Fargate, RDS, S3, GitHub OIDC
+1. **Live on AWS** — Terraform, ECS Fargate, RDS, S3, auto-deploy on merge
+2. **Policies, customers and sign-in** — roles, optimistic locking, audit
+3. **Documents and beneficiary change workflow** — the end-to-end demo path
 4. **Annuities** — BigDecimal ledger, interest, withdrawals (simplified)
 5. **Interview polish** — diagrams, demo script, observability
