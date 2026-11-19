@@ -19,6 +19,7 @@ body { margin: 0; }
   padding: 12px 24px; background: var(--surface); border-bottom: 1px solid var(--border);
 }
 .brand { font-weight: 700; color: var(--accent); font-size: 1.1rem; }
+.statuses { display: flex; gap: 16px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
 .status { font-size: 0.85rem; color: var(--muted); }
 .status-up { color: var(--ok); }
 .status-down { color: var(--bad); }

@@ -2,14 +2,21 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
+// Same routing the Kubernetes ingress uses in AWS: /api/<service>/... goes to that service.
+const services = { policy: 8081, document: 8082, audit: 8083 }
+
 export default defineConfig({
   plugins: [react()],
   server: {
-    // Forward API calls to the Spring Boot backend during local development.
-    proxy: {
-      '/api': 'http://localhost:8080',
-      '/actuator': 'http://localhost:8080',
-    },
+    proxy: Object.fromEntries(
+      Object.entries(services).map(([name, port]) => [
+        `/api/${name}`,
+        {
+          target: `http://localhost:${port}`,
+          rewrite: (path: string) => path.replace(`/api/${name}`, ''),
+        },
+      ]),
+    ),
   },
   test: {
     environment: 'jsdom',

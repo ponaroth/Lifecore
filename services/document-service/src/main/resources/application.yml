@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: document-service
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/document}
+    username: ${DB_USERNAME:lifecore}
+    password: ${DB_PASSWORD:lifecore}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate   # Flyway owns the schema
+  mvc:
+    problemdetails:
+      enabled: true
+  profiles:
+    # LocalStack settings live in application-local.yml. On AWS, run with SPRING_PROFILES_ACTIVE=aws
+    # so the SDK uses real endpoints and the pod's IAM role.
+    default: local
+
+lifecore:
+  documents:
+    bucket: ${DOCUMENTS_BUCKET:lifecore-documents}
+    presigned-url-ttl: 5m
+
+server:
+  port: ${PORT:8082}
+  error:
+    include-stacktrace: never
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true   # /actuator/health/liveness and /readiness for Kubernetes

@@ -1,6 +1,7 @@
 # ADR 0001: Start as a modular monolith
 
-**Status:** Accepted
+**Status:** Superseded by [ADR 0002](0002-microservices-on-eks.md). The modular approach still
+applies *inside* the policy service.
 
 ## Context
 LifeCore has several business areas (customers, policies, documents, workflow, audit, later
