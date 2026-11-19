@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: audit-service
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/audit}
+    username: ${DB_USERNAME:lifecore}
+    password: ${DB_PASSWORD:lifecore}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate   # Flyway owns the schema
+  mvc:
+    problemdetails:
+      enabled: true
+  cloud:
+    aws:
+      sqs:
+        enabled: true
+  profiles:
+    # LocalStack settings live in application-local.yml. On AWS, run with SPRING_PROFILES_ACTIVE=aws
+    # so the SDK uses real endpoints and the pod's IAM role.
+    default: local
+
+lifecore:
+  audit:
+    queue: ${AUDIT_QUEUE:lifecore-audit-events}
+
+server:
+  port: ${PORT:8083}
+  error:
+    include-stacktrace: never
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true   # /actuator/health/liveness and /readiness for Kubernetes

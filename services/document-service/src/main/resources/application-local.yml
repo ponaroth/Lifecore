@@ -1,0 +1,12 @@
+# Local development against LocalStack (docker compose up). Not used on AWS.
+spring:
+  cloud:
+    aws:
+      region:
+        static: us-east-1
+      endpoint: http://localhost:4566
+      credentials:
+        access-key: test
+        secret-key: test
+      s3:
+        path-style-access-enabled: true
